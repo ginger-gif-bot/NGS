@@ -178,3 +178,12 @@
 - `#!/bin/bash`
 - at the top of the script
 - to run= `bash scriptfile`
+
+###
+`$(...)` -> command substitution
+`$variable` -> variable expansion
+`if [ -f... ]` -> to check if file exists
+##### To replace 
+variable=`"$(var_you_want_to_perform_on/thing_to_replace/thing_to_replace_into)"`
+##### other replacing way:
+varr=`$(variable%.fastq)` -> means remove fastq from the end of the filename

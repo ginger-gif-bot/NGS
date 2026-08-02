@@ -3,16 +3,16 @@
     "report_data_sources": {
         "FastQC": {
             "all_sections": {
-                "ERR13230452": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR13230452.sra_1_fastqc.zip",
-                "ERR13230453": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR13230453.sra_1_fastqc.zip",
-                "ERR13230454": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR13230454.sra_1_fastqc.zip",
-                "ERR13230455": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR13230455.sra_1_fastqc.zip",
-                "ERR13230472": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR13230472.sra_1_fastqc.zip",
-                "ERR16959700": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR16959700.sra_1_fastqc.zip",
-                "ERR16959717": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR16959717.sra_1_fastqc.zip",
-                "ERR16984445": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/ERR16984445.sra_1_fastqc.zip",
-                "SRR37221943": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/SRR37221943.sra_1_fastqc.zip",
-                "SRR37222079": "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw/SRR37222079.sra_1_fastqc.zip"
+                "ERR13230452": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR13230452.sra_1_fastqc.zip",
+                "ERR13230453": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR13230453.sra_1_fastqc.zip",
+                "ERR13230454": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR13230454.sra_1_fastqc.zip",
+                "ERR13230455": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR13230455.sra_1_fastqc.zip",
+                "ERR13230472": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR13230472.sra_1_fastqc.zip",
+                "ERR16959700": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR16959700.sra_1_fastqc.zip",
+                "ERR16959717": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR16959717.sra_1_fastqc.zip",
+                "ERR16984445": "/mnt/d/NGS_pipeline/results/fastqc_raw/ERR16984445.sra_1_fastqc.zip",
+                "SRR37221943": "/mnt/d/NGS_pipeline/results/fastqc_raw/SRR37221943.sra_1_fastqc.zip",
+                "SRR37222079": "/mnt/d/NGS_pipeline/results/fastqc_raw/SRR37222079.sra_1_fastqc.zip"
             }
         }
     },
@@ -182,7 +182,7 @@
             }
         }
     },
-    "report_creation_date": "2026-08-01, 18:14 UTC",
+    "report_creation_date": "2026-08-02, 08:28 UTC",
     "report_plot_data": {
         "fastqc_sequence_counts_plot": {
             "id": "fastqc_sequence_counts_plot",
@@ -20684,11 +20684,11 @@
     "config_subtitle": null,
     "config_title": null,
     "config_version": "1.35",
-    "config_output_dir": "/mnt/d/python_learn/NGS/ngs/results/multiqc_raw",
+    "config_output_dir": "/mnt/d/NGS_pipeline/results/multiqc_raw",
     "config_sample_names_rename": [],
     "config_sample_names_rename_buttons": [],
     "config_analysis_dir_abs": [
-        "/mnt/d/python_learn/NGS/ngs/results/fastqc_raw"
+        "/mnt/d/NGS_pipeline/results/fastqc_raw"
     ],
     "report_saved_raw_data": {
         "multiqc_fastqc": {
