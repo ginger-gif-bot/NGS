@@ -25,7 +25,7 @@ trimmomatic PE \
     SLIDINGWINDOW:4:15 \
     MINLEN:36 || {
         echo "WARNING: Trimmomatic failed on $extract_id - skipping"
-        echo "$extract_id" >> results/failed_samples.txt
+        echo "$extract_id" > results/failed_samples.txt
         continue 
     }
 done
