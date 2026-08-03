@@ -187,3 +187,6 @@
 variable=`"${var_you_want_to_perform_on/thing_to_replace/thing_to_replace_into}"`
 ##### other replacing way:
 varr=`${variable%.fastq}` -> means remove fastq from the end of the filename
+
+## Adding in the log file
+`bash script 2>&1 | tee logs/specific_name.log`

@@ -15,10 +15,10 @@ trimmomatic PE \
     -phred33 \
     "$forward" \
     "$reverse" \
-    "results/fastqc_trimmed/${extract_id}_1_paired.fastq" \
-    "results/fastqc_trimmed/${extract_id}_1_unpaired.fastq" \
-    "results/fastqc_trimmed/${extract_id}_2_paired.fastq" \
-    "results/fastqc_trimmed/${extract_id}_2_unpaired.fastq" \
+    "results/trimmed/${extract_id}_1_paired.fastq" \
+    "results/trimmed/${extract_id}_1_unpaired.fastq" \
+    "results/trimmed/${extract_id}_2_paired.fastq" \
+    "results/trimmed/${extract_id}_2_unpaired.fastq" \
     ILLUMINACLIP:$CONDA_PREFIX/share/trimmomatic-0.40-0/adapters/TruSeq3-PE.fa:2:30:10 \
     LEADING:3 \
     TRAILING:3 \
