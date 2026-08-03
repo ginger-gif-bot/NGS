@@ -1,13 +1,28 @@
-data/raw_reads/raw_sra/
-data/raw_reads/raw_fastq/
-results/fastqc_trimmed/
-results/fastqc_raw/
-results/multiqc_raw/
-results/multiqc_trimmed/
+# Raw data - too large for GitHub
+data/raw_reads/raw_sra/*
+!data/raw_reads/raw_sra/.gitkeep
+data/raw_reads/raw_fastq/*
+!data/raw_reads/raw_fastq/.gitkeep
+
+# Results - generated files
+results/fastqc_raw/*
+!results/fastqc_raw/.gitkeep
+results/fastqc_trimmed/*
+!results/fastqc_trimmed/.gitkeep
+results/multiqc_raw/*
+!results/multiqc_raw/.gitkeep
+results/multiqc_trimmed/*
+!results/multiqc_trimmed/.gitkeep
+results/trimmed/*
+!results/trimmed/.gitkeep
+results/alignment/*
+!results/alignment/.gitkeep
+results/bam/*
+!results/bam/.gitkeep
+
+# Logs
+logs/*
+!logs/.gitkeep
 
 # SRA cache
 ~/ncbi/
-
-# Log files
-*.log 
-logs/
