@@ -8,8 +8,8 @@ for file in results/trimmed/*.fastq
 do 
     ((count+=1))
     base=$(basename "$file" .fastq)
-    if [ ! -f "results/trimmed/${base}_fastqc.zip" ] || \
-       [ ! -f "results/trimmed/${base}_fastqc.html" ]
+    if [ ! -f "results/fastqc_trimmed/${base}_fastqc.zip" ] || \
+       [ ! -f "results/fastqc_trimmed/${base}_fastqc.html" ]
     then
        echo -e "\n[$count/$total] Running FastQC on "$file""
        fastqc "$file" -o results/fastqc_trimmed
@@ -18,5 +18,11 @@ do
     fi
 done
 echo -e "\n\nAnalysis complete" 
+
+
+
+
+
+
 
 
