@@ -3,6 +3,9 @@
 echo "Starting the trimming ..."
 total=$(ls data/raw_reads/raw_fastq | wc -l )
 count=0
+
+> results/failed_samples.txt
+
 for forward in data/raw_reads/raw_fastq/*_1.fastq
 do
 ((count+=1))
@@ -25,7 +28,7 @@ trimmomatic PE \
     SLIDINGWINDOW:4:15 \
     MINLEN:36 || {
         echo "WARNING: Trimmomatic failed on $extract_id - skipping"
-        echo "$extract_id" > results/failed_samples.txt
+        echo "$extract_id" >> results/failed_samples.txt
         continue 
     }
 done
