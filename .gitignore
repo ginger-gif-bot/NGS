@@ -4,6 +4,8 @@ data/raw_reads/raw_sra/*
 data/raw_reads/raw_fastq/*
 !data/raw_reads/raw_fastq/.gitkeep
 data/reference/*
+!data/reference/.gitkeep
+
 # Results - generated files
 results/fastqc_raw/*
 !results/fastqc_raw/.gitkeep
@@ -26,3 +28,4 @@ logs/*
 
 # SRA cache
 ~/ncbi/
+
