@@ -30,7 +30,7 @@ then
         echo "Output already exists -> skipping ${id}..."
     else
         echo "Processing [${count}/${total}]..."
-
+        start=$SECONDS
         bwa mem -t "$THREADS" \
             -R "@RG\tID:${id}\tSM:${id}\tPL:ILLUMINA" \
             "$REFERENCE" "$R1" "$R2" \
@@ -38,6 +38,7 @@ then
             2> "$LOG_DIR/${id}.log"
 
         mv "$OUTPUT_DIR/${id}.sam.tmp" "$OUTPUT_DIR/${id}.sam"
+        echo "done in $((SECONDS - start))s"
     fi
 else
     echo "R1 or R2 is missing -> skipping ${id}..."

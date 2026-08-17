@@ -7,4 +7,4 @@ REFERENCE="data/reference/e_coli_ref_genome/ncbi_dataset/data/GCF_000005845.2/GC
 TRIMMED_READS="results/trimmed"
 
 # Threads
-THREADS=4
+THREADS=8

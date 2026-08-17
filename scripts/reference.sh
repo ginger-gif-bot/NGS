@@ -1,4 +1,6 @@
 #!/bin/bash
+exec > >(tee -a "logs/reference.log") 2>&1
+echo "=== Run started $(date) ==="
 set -e
 
 # Finding the reference genome ... -> fetch directly from NCBI

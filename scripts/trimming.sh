@@ -1,4 +1,6 @@
 #!/bin/bash
+exec > >(tee -a "logs/trimming.log") 2>&1
+echo "=== Run started $(date) ==="
 
 echo "Starting the trimming ..."
 total=$(ls data/raw_reads/raw_fastq | wc -l )
@@ -14,6 +16,7 @@ extract_id="${forward%_1.fastq}"
 extract_id="${extract_id##*/}"  # removes the file path
 extract_id="${extract_id%.sra}"
 echo -e "\nTrimming [$count/$total]\n" 
+start=$SECONDS
 trimmomatic PE \
     -phred33 \
     "$forward" \
@@ -31,6 +34,7 @@ trimmomatic PE \
         echo "$extract_id" >> results/failed_samples.txt
         continue 
     }
+    echo "done in $((SECONDS - start))s"
 done
 echo "Done" 
 

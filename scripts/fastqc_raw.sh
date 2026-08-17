@@ -1,4 +1,7 @@
 #!/bin/bash
+exec > >(tee -a "logs/fastqc_raw.log") 2>&1
+echo "=== Run started $(date) ==="
+
 set -e
 
 echo "Starting FastQC ..."
@@ -12,7 +15,10 @@ do
        [ ! -f "results/fastqc_raw/${base}_fastqc.html" ]
     then
        echo -e "\n[$count/$total] Running FastQC on "$file""
-       fastqc "$file" -o results/fastqc_raw
+       start=$SECONDS
+       fastqc "$file" -o results/fastqc_raw || \
+       { rm -f results/fastqc_raw/"${base}"_fastqc.*; exit 1; }
+       echo "done in $((SECONDS - start))s"
     else
        echo "[$count/$total] already exists, skipping "$file""
     fi
