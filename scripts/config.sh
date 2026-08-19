@@ -5,6 +5,7 @@ REFERENCE="data/reference/e_coli_ref_genome/ncbi_dataset/data/GCF_000005845.2/GC
 
 # Directories
 TRIMMED_READS="results/trimmed"
-
+SAM_FILES="results/alignment"
+SORTED_BAM="results/sorted"
 # Threads
 THREADS=8

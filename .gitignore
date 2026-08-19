@@ -19,8 +19,8 @@ results/trimmed/*
 !results/trimmed/.gitkeep
 results/alignment/*
 !results/alignment/.gitkeep
-results/bam/*
-!results/bam/.gitkeep
+results/sorted/*
+!results/sorted/.gitkeep
 
 # Logs
 logs/*
