@@ -27,6 +27,8 @@ results/consensus/*
 !results/consensus/.gitkeep
 results/vcf/*
 !results/vcf/.gitkeep
+results/cds_seq/*
+!results/cds_seq/.gitkeep
 # Logs
 logs/*
 !logs/.gitkeep
