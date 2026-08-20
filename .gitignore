@@ -21,7 +21,12 @@ results/alignment/*
 !results/alignment/.gitkeep
 results/sorted/*
 !results/sorted/.gitkeep
-
+results/chain/*
+!results/chain/.gitkeep
+results/consensus/*
+!results/consensus/.gitkeep
+results/vcf/*
+!results/vcf/.gitkeep
 # Logs
 logs/*
 !logs/.gitkeep

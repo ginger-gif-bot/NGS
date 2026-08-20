@@ -7,5 +7,9 @@ REFERENCE="data/reference/e_coli_ref_genome/ncbi_dataset/data/GCF_000005845.2/GC
 TRIMMED_READS="results/trimmed"
 SAM_FILES="results/alignment"
 SORTED_BAM="results/sorted"
+VCF_DIR="results/vcf"
+CONSENSUS="results/consensus"
+CHAIN="results/chain"
+
 # Threads
 THREADS=8

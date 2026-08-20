@@ -3,8 +3,14 @@
 if samtools quickcheck -v results/sorted/*.sorted.bam 
 then
     echo "ALL BAMs OK -> removing SAM files"
-    rm results/alignment/*.sam
-    echo "Done"
+    read -p "Delete SAM files? (y/n)" confirm
+    if [ "$confirm" = "y" ]
+    then
+        rm results/alignment/*.sam
+        echo "Deleted"
+    else
+        echo "Skipped"
+    fi
 else 
     echo "BAM check failed -> keeping SAM files"
     exit 1
