@@ -2,6 +2,8 @@ import os
 from Bio import SeqIO
 from pyliftover import LiftOver
 from glob import glob
+from datetime import datetime
+from time import time
 
 ref = os.path.join("data","reference","e_coli_ref_genome","ncbi_dataset","data","GCF_000005845.2","genomic.gbff")
 
@@ -19,7 +21,6 @@ def gene_name_extraction(ref,gene_name):
     return gene_names_list
 
 gene_list = gene_name_extraction(ref,"rpo")
-
 
 def cds_list_extraction(gene_list):
     cds_list = []
@@ -49,6 +50,15 @@ def cds_info(target_gene_list,ref):
 
 cds_infomation = cds_info(target_list,ref) 
 
+log_file = open(os.path.join("logs","cds_extraction.log"),"a")
+
+def log(msg):
+    print(msg)
+    log_file.write(msg + "\n")
+    log_file.flush()
+
+log(f"=== Run started {datetime.now()} ===")
+
 def cds_extraction(cds_info):
     os.makedirs(os.path.join("results","cds_seq"),exist_ok=True)
     
@@ -61,27 +71,33 @@ def cds_extraction(cds_info):
         consensus_record = SeqIO.read(consensus_path,"fasta")
 
         for sample in cds_info:
-            contig = sample["contig"]
             gene = sample["gene"]
+            gene_dir = os.path.join("results","cds_seq",f"{gene}")
+            os.makedirs(gene_dir,exist_ok=True)
+            out_path = os.path.join(gene_dir,f"{sample_id}_{gene}.fasta")
+            
+            if os.path.exists(out_path) and os.path.getsize(out_path) > 0:
+                log(f"Skipping {sample_id}_{gene}, already exists")
+                continue
+
+            start_time = time()
+            contig = sample["contig"]
             start_lifted = lo.convert_coordinate(contig,sample["start"])
             end_lifted = lo.convert_coordinate(contig,sample["end"])
-
             start_pos = start_lifted[0][1]
             end_pos = end_lifted[0][1]
             cds_seq = consensus_record.seq[start_pos:end_pos]
-
+            
             if sample["strand"] == -1:
                 cds_seq = cds_seq.reverse_complement()
-
-            gene_dir = os.path.join("results","cds_seq",f"{gene}")
-            os.makedirs(gene_dir,exist_ok=True)
-            out_path = os.path.join(gene_dir,f"{sample_id}_{gene}.fasta") 
-
+ 
             with open(out_path,"w") as f:
                 f.write(f">{sample_id}_{gene}\n{str(cds_seq)}\n")
 
+            elapsed = time() - start_time
             seq_len = end_pos - start_pos
-            print(gene,seq_len,seq_len%3)
+            log(f"{sample_id}_{gene} done in {elapsed:.2f}s ({seq_len%3} frame check)")
+            
 
 print(cds_extraction(cds_infomation))
 
@@ -95,3 +111,5 @@ def file_check(target_gene):
     return files_in_folder
 
 print(file_check(target_list))
+
+log_file.close() 
