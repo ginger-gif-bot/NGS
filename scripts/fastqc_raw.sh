@@ -7,6 +7,7 @@ set -e
 echo "Starting FastQC ..."
 count=0
 total=$(ls data/raw_reads/raw_fastq/ | wc -l)
+
 for file in data/raw_reads/raw_fastq/*.fastq
 do 
     ((count+=1))
@@ -18,7 +19,7 @@ do
        start=$SECONDS
        fastqc "$file" -o results/fastqc_raw || \
        { rm -f results/fastqc_raw/"${base}"_fastqc.*; exit 1; }
-       echo "done in $((SECONDS - start))s"
+       echo -e "\ndone in $((SECONDS - start))s\n"
     else
        echo "[$count/$total] already exists, skipping "$file""
     fi

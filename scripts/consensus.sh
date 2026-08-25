@@ -1,5 +1,5 @@
 #!/bin/bash
-exec > >(tee -a "logs/consenus.log") 2>&1
+exec > >(tee -a "logs/consensus.log") 2>&1
 echo "=== Run started $(date) ==="
 set -e 
 

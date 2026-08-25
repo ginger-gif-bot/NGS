@@ -3,26 +3,25 @@ exec > >(tee -a "logs/getting_data.log") 2>&1
 echo "=== Run started $(date) ==="
 
 set -e
+
+source scripts/config.sh
 # 1. Filtering the data
-Metadata_file="metadata/CRyPTIC_reuse_table_20240917.csv"
-sensitive_ids="metadata/sensitive_ids.txt"
-resistant_ids="metadata/resistant_ids.txt"
-total_ids="metadata/all_ids.txt"
 
 echo -e "Isolating the SRA ids...\n"
-awk -F "," 'NR > 1 && $9 == "S" && $14 == "S" {print $1}' "$Metadata_file" | head -50 > "$sensitive_ids"
-echo "Saved the Sensitive accession ids in the "$sensitive_ids" file."
-awk -F "," 'NR > 1 && $9 == "R" && $14 == "R"  {print $1}' "$Metadata_file" | head -50 > "$resistant_ids"
-echo "Saved the Resistant accession ids in the "$resistant_ids" file."
+awk -F "," 'NR > 1 && $9 == "S" && $14 == "S" {print $1}' "$METADATA_FILE" | head -50 > "$SENSITIVE_IDS"
+echo "Saved the Sensitive accession ids in the "$SENSITIVE_IDS" file."
+awk -F "," 'NR > 1 && $9 == "R" && $14 == "R"  {print $1}' "$METADATA_FILE" | head -50 > "$RESISTANT_IDS"
+echo "Saved the Resistant accession ids in the "$RESISTANT_IDS" file."
 
-cat "$sensitive_ids" "$resistant_ids" > "$total_ids"
-echo "Saved all the accession ids in the "$total_ids" file."
+cat "$SENSITIVE_IDS" "$RESISTANT_IDS" > "$TOTAL_IDS"
+echo "Saved all the accession ids in the "$TOTAL_IDS" file."
 
 # 2. Prefetch
 echo -e "\nStarting prefetch\n"
 
+CURRENT_BATCH="$BATCH_1_S"
 count=0
-total=$(wc -l < "$total_ids")
+total=$(wc -l < "$CURRENT_BATCH")
 
 while read id
 do 
@@ -36,7 +35,7 @@ do
     else
     echo "[$count/$total] file already exists, skipping "$id"" 
     fi
-done < "$total_ids"
+done < "$CURRENT_BATCH"
 
 echo "All the sra sequences have been downloaded"
 
@@ -58,10 +57,12 @@ do
         -O data/raw_reads/raw_fastq/ || \
         { rm -f data/raw_reads/raw_fastq/"${id}".sra_*.fastq; exit 1; }
         echo -e "\ndone in $((SECONDS - start))s\n"
+        rm -rf "data/raw_reads/raw_sra/${id}/"
+        echo -e "\nSRA files deleted for ${id}\n"
     else
         echo "[$count/$total] already exists, skipping "$id""
     fi
-done < "$total_ids"
+done < "$CURRENT_BATCH"
 echo "All the fastq sequences have been downloaded"
 
 # To check the column numbers

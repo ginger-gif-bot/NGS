@@ -12,8 +12,8 @@ set -e
 #       - Annotated by NCBI RefSeq
 # 3. Select the resulting reference assembly:
 #       - Escherichia coli K-12 substr. MG1655
-#       - Assembly accession: GCF_000005845.2
-#       - Chromosome accession: NC_000913.3
+#       - Assembly accession: GCF_000195955.2
+#       - Chromosome accession: NC_000962.3
 # 4. Select "Download Package".
 # 5. In the download options, select:
 #       - RefSeq only
@@ -22,7 +22,7 @@ set -e
 #    and leave unnecessary reports/files unselected.
 # 6. Download the package and extract/unzip it.
 # 7. Use the genomic FASTA file:
-#       GCF_000005845.2_ASM584v2_genomic.fna
+#       GCF_000195955.2_ASM19595v2_genomic.fna
 #    as the reference genome for the downstream BWA analysis.
 
 source scripts/config.sh
