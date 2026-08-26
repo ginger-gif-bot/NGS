@@ -5,7 +5,7 @@ from glob import glob
 from datetime import datetime
 from time import time
 
-ref = os.path.join("data","reference","e_coli_ref_genome","ncbi_dataset","data","GCF_000005845.2","genomic.gbff")
+ref = os.path.join("data","reference","tb_ref_genome","ncbi_dataset","data","GCF_000195955.2","genomic.gbff")
 
 def gene_name_extraction(ref,gene_name):
     gene_names_list = []
@@ -20,8 +20,9 @@ def gene_name_extraction(ref,gene_name):
                     })
     return gene_names_list
 
-gene_list = gene_name_extraction(ref,"rpo")
-
+# gene_names for TB = rpoB,katG,gyrA
+gene_list = gene_name_extraction(ref,"gyra")
+# print(gene_list)
 def cds_list_extraction(gene_list):
     cds_list = []
     for gene in gene_list:
@@ -29,7 +30,7 @@ def cds_list_extraction(gene_list):
     return cds_list
 
 cds_list = cds_list_extraction(gene_list)
-target_list = ["rpoA","rpoB","rpoC"]
+target_list = ["rpoB","katG","gyrA"]
 
 def cds_info(target_gene_list,ref):
     cds_info = []
@@ -49,7 +50,7 @@ def cds_info(target_gene_list,ref):
     return cds_info
 
 cds_infomation = cds_info(target_list,ref) 
-
+# print(cds_infomation)
 log_file = open(os.path.join("logs","cds_extraction.log"),"a")
 
 def log(msg):

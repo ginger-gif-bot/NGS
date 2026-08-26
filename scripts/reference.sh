@@ -5,13 +5,13 @@ set -e
 
 # Finding the reference genome ... -> fetch directly from NCBI
 # Reference genome retrieval:
-# 1. Go to the NCBI Genome database and search for "Escherichia coli K-12".
+# 1. Go to the NCBI Genome database and search for "Mycobacterium tuberculosis".
 # 2. Apply the filters:
 #       - Reference genomes
 #       - Annotated genomes
 #       - Annotated by NCBI RefSeq
 # 3. Select the resulting reference assembly:
-#       - Escherichia coli K-12 substr. MG1655
+#       - Mycobacterium tuberculosis H37Rv (strain)
 #       - Assembly accession: GCF_000195955.2
 #       - Chromosome accession: NC_000962.3
 # 4. Select "Download Package".
