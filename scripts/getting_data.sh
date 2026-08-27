@@ -19,14 +19,15 @@ echo "Saved all the accession ids in the "$TOTAL_IDS" file."
 # 2. Prefetch
 echo -e "\nStarting prefetch\n"
 
-CURRENT_BATCH="$BATCH_1_S"
+CURRENT_BATCH="$BATCH_2_S"
 count=0
 total=$(wc -l < "$CURRENT_BATCH")
 
 while read id
 do 
     ((count +=1))
-    if [ ! -f "data/raw_reads/raw_sra/${id}/${id}.sra" ]
+    if [ ! -f "data/raw_reads/raw_fastq/${id}.sra_1.fastq" ] && \
+       [ ! -f "data/raw_reads/raw_sra/${id}/${id}.sra" ]
     then 
         start=$SECONDS
         echo -e "\n[$count/$total] Downloading $id ...\n"
