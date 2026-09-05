@@ -19,7 +19,7 @@ echo "Saved all the accession ids in the "$TOTAL_IDS" file."
 # 2. Prefetch
 echo -e "\nStarting prefetch\n"
 
-CURRENT_BATCH="$BATCH_3_R"
+CURRENT_BATCH="$BATCH_4_R"
 count=0
 total=$(wc -l < "$CURRENT_BATCH")
 
