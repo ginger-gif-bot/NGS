@@ -20,7 +20,7 @@ for gene in gene_list:
             count +=1
 print(f"{count} files OK")
 
-print(excluded)
+
 
 # To move the files with sequence length not divisible by 3 into another folder
 
@@ -51,3 +51,24 @@ for gene in gene_list:
             print(f"{id} duplicte found")
 
 # print(id_list["gyrA"])
+
+# To determine the group of excluded samples
+with open(os.path.join("metadata","sensitive_ids.txt"),"r") as f:
+    sensitive_ids = set(f.read().splitlines())
+
+with open(os.path.join("metadata","resistant_ids.txt"),"r") as f:
+    resistant_ids =  set(f.read().splitlines())
+
+excluded_grp = []
+for gene in gene_list:
+    path = glob(os.path.join("results","cds_seq",gene,f"excluded_{gene}","*.fasta"))
+    for files in path:
+        id = os.path.basename(files)
+        id = id.replace(f"_{gene}","")
+        id = id.replace(f".fasta","")
+        if id in sensitive_ids:          
+            excluded_grp.append({gene:{"sensitive":id}})
+        else:
+            excluded_grp.append({gene:{"resistant":id}})
+            
+print(excluded_grp)
