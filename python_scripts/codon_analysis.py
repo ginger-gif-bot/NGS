@@ -5,6 +5,8 @@ from Bio.Data import CodonTable
 from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+import pandas as pd
 
 codon_table = CodonTable.unambiguous_dna_by_name["Standard"]
 gene_list = ["rpoB","katG","gyrA"]
@@ -49,8 +51,8 @@ for gene in gene_list:
         all_skipped[sample_id][gene] = skips
     # print(codon_count)
 
-print(f"Total samples: {len(all_codons)}")
-print(f"Genes per sample: {list(all_codons[list(all_codons.keys())[0]].keys())}")
+# print(f"Total samples: {len(all_codons)}")
+# print(f"Genes per sample: {list(all_codons[list(all_codons.keys())[0]].keys())}")
 # print(all_skipped)
 
 aa_to_codons_std = defaultdict(list)
@@ -84,9 +86,9 @@ for sample_id in all_codons:
 
 # print(all_codons_rscu)
 first_sample = list(all_codons_rscu.keys())[0]
-print(f"Total samples: {len(all_codons_rscu)}")
-print(f"Genes in first sample: {list(all_codons_rscu[first_sample].keys())}")
-print(f"RSCU values for rpoB: {all_codons_rscu[first_sample]['rpoB']}")
+# print(f"Total samples: {len(all_codons_rscu)}")
+# print(f"Genes in first sample: {list(all_codons_rscu[first_sample].keys())}")
+# print(f"RSCU values for rpoB: {all_codons_rscu[first_sample]['rpoB']}")
 
 group_labels = {}
 
@@ -97,8 +99,8 @@ for sample_id in all_codons_rscu:
         group_labels[sample_id] = "resistant"
 
 # print(group_labels)
-print(sum(1 for v in group_labels.values() if v == "sensitive"))
-print(sum(1 for v in group_labels.values() if v == "resistant"))
+# print(sum(1 for v in group_labels.values() if v == "sensitive"))
+# print(sum(1 for v in group_labels.values() if v == "resistant"))
 
 rscu_values_all = defaultdict(lambda:defaultdict(lambda:defaultdict(list)))
 rscu_avg = defaultdict(lambda:defaultdict(lambda:defaultdict(float)))
@@ -118,8 +120,8 @@ for grp in rscu_values_all:
             rscu_values = rscu_values_all[grp][gene][codon]
             rscu_avg[grp][gene][codon] = round(sum(rscu_values)/len(rscu_values),2)
 
-print(rscu_avg["sensitive"]["rpoB"]["CTG"])
-print(rscu_avg["resistant"]["rpoB"]["CTG"])
+# print(rscu_avg["sensitive"]["rpoB"]["CTG"])
+# print(rscu_avg["resistant"]["rpoB"]["CTG"])
 
 #### === ENC CALCULATION
 two_fold = []
@@ -140,10 +142,10 @@ for aa,codons in aa_to_codons_std.items():
     elif degenracy == 6:
         six_fold.append(aa)   
 
-print(f"Two Fold: {len(two_fold)} -> {two_fold}")
-print(f"Three Fold: {len(three_fold)} -> {three_fold}")
-print(f"Four Fold: {len(four_fold)} -> {four_fold}")
-print(f"six Fold: {len(six_fold)} -> {six_fold}")
+# print(f"Two Fold: {len(two_fold)} -> {two_fold}")
+# print(f"Three Fold: {len(three_fold)} -> {three_fold}")
+# print(f"Four Fold: {len(four_fold)} -> {four_fold}")
+# print(f"six Fold: {len(six_fold)} -> {six_fold}")
 
 def enc_calc(codon_counter,fold):
     f_hat_values = []
@@ -183,8 +185,8 @@ for sample_id in group_labels:
 
 first_group = list(enc_values.keys())[0]
 first_sample = list(enc_values[first_group].keys())[0]
-print(f"Groups: {list(enc_values.keys())}")
-print(f"First sample in {first_group}: {enc_values[first_group][first_sample]}") 
+# print(f"Groups: {list(enc_values.keys())}")
+# print(f"First sample in {first_group}: {enc_values[first_group][first_sample]}") 
 
 #### === GC3 CALCULATION ===
 
@@ -197,7 +199,7 @@ def gc3_calc(codon_counter):
 
     return round(gc / total,4)
 
-print(gc3_calc(all_codons["ERR4810467"]["gyrA"]))
+# print(gc3_calc(all_codons["ERR4810467"]["gyrA"]))
 
 gc3_values = defaultdict(lambda:defaultdict(lambda:defaultdict(float)))
 for sample_id in group_labels:
@@ -227,13 +229,13 @@ enc_sensitive_katG = []
 gc3_resistant_katG = []
 gc3_sensitive_katG = []
 
-print(f"rpoB GC3 resistant sample: {gc3_resistant_rpoB[:5]}")
-print(f"rpoB GC3 sensitive sample: {gc3_sensitive_rpoB[:5]}")
-print(f"gyrA GC3 resistant sample: {gc3_resistant_gyrA[:5]}")
+# print(f"rpoB GC3 resistant sample: {gc3_resistant_rpoB[:5]}")
+# print(f"rpoB GC3 sensitive sample: {gc3_sensitive_rpoB[:5]}")
+# print(f"gyrA GC3 resistant sample: {gc3_resistant_gyrA[:5]}")
 
-print(f"rpoB enc resistant sample: {enc_resistant_rpoB[:5]}")
-print(f"rpoB enc sensitive sample: {enc_sensitive_rpoB[:5]}")
-print(f"gyrA enc resistant sample: {enc_resistant_gyrA[:5]}")
+# print(f"rpoB enc resistant sample: {enc_resistant_rpoB[:5]}")
+# print(f"rpoB enc sensitive sample: {enc_sensitive_rpoB[:5]}")
+# print(f"gyrA enc resistant sample: {enc_resistant_gyrA[:5]}")
 
 for sample_id in group_labels:
     grp = group_labels[sample_id]
@@ -262,9 +264,9 @@ for sample_id in group_labels:
             enc_sensitive_rpoB.append(enc_values[grp][sample_id]["rpoB"])
             gc3_sensitive_rpoB.append(gc3_values[grp][sample_id]["rpoB"])
 
-print(f"rpoB: {len(enc_resistant_rpoB)} resistant, {len(enc_sensitive_rpoB)} sensitive")
-print(f"katG: {len(enc_resistant_katG)} resistant, {len(enc_sensitive_katG)} sensitive")
-print(f"gyrA: {len(enc_resistant_gyrA)} resistant, {len(enc_sensitive_gyrA)} sensitive")
+# print(f"rpoB: {len(enc_resistant_rpoB)} resistant, {len(enc_sensitive_rpoB)} sensitive")
+# print(f"katG: {len(enc_resistant_katG)} resistant, {len(enc_sensitive_katG)} sensitive")
+# print(f"gyrA: {len(enc_resistant_gyrA)} resistant, {len(enc_sensitive_gyrA)} sensitive")
 
 
 fig, axes  = plt.subplots(1,3,figsize=(15,5))
@@ -276,23 +278,140 @@ plt_info = [("rpoB",enc_resistant_rpoB,enc_sensitive_rpoB,gc3_resistant_rpoB,gc3
             ("katG",enc_resistant_katG,enc_sensitive_katG,gc3_resistant_katG,gc3_sensitive_katG),
             ("gyrA",enc_resistant_gyrA,enc_sensitive_gyrA,gc3_resistant_gyrA,gc3_sensitive_gyrA)]
 
-fig.suptitle("ENC vs GC3 - M. tuberculosis (rpoB,katG,gyrA)",fontsize=14,fontweight="bold")
+# fig.suptitle("ENC vs GC3 - M. tuberculosis (rpoB,katG,gyrA)",fontsize=14,fontweight="bold")
 
-for i , (gene,enc_r,enc_s,gc3_r,gc3_s) in enumerate(plt_info):
-    ax = axes[i]
-    ax.plot(gc3_range,enc_expected,color="black",label="EXPECTED",linestyle="-",linewidth=1.5)
-    ax.scatter(gc3_s,enc_s,color="skyblue",label="Sensitive",alpha=0.4,s=80,marker="o",edgecolors="blue")
-    ax.scatter(gc3_r,enc_r,color="pink",label="Resistant",alpha=0.4,s=80,marker="^",edgecolors="maroon")
-    ax.set_title(gene,fontsize=15,fontweight="bold")
-    ax.set_xlabel("GC3",fontsize=11,fontweight="bold")
-    ax.set_ylabel("ENC",fontsize=11,fontweight="bold")
-    ax.set_ylim(20,61)
-    ax.set_xlim(0,1)
-    ax.grid(True,linestyle="--",alpha=0.4,color="#494a4a")
-    ax.legend(framealpha=0.7)
-    ax.set_facecolor("#e8f6f6")
-plt.tight_layout()
-# plt.savefig(os.path.join("results","enc_gc3_plot.png"),dpi=300,bbox_inches="tight")
+# for i , (gene,enc_r,enc_s,gc3_r,gc3_s) in enumerate(plt_info):
+#     ax = axes[i]
+#     ax.plot(gc3_range,enc_expected,color="black",label="EXPECTED",linestyle="-",linewidth=1.5)
+#     ax.scatter(gc3_s,enc_s,color="skyblue",label="Sensitive",alpha=0.4,s=80,marker="o",edgecolors="blue")
+#     ax.scatter(gc3_r,enc_r,color="pink",label="Resistant",alpha=0.4,s=80,marker="^",edgecolors="maroon")
+#     ax.set_title(gene,fontsize=15,fontweight="bold")
+#     ax.set_xlabel("GC3",fontsize=11,fontweight="bold")
+#     ax.set_ylabel("ENC",fontsize=11,fontweight="bold")
+#     ax.set_ylim(20,61)
+#     ax.set_xlim(0,1)
+#     ax.grid(True,linestyle="--",alpha=0.4,color="#494a4a")
+#     ax.legend(framealpha=0.7)
+#     ax.set_facecolor("#e8f6f6")
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","enc_gc3_plot.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+# plt.close()
+
+
+#### === ENC Boxplot ===
+
+enc_info = [
+    ("rpoB",enc_resistant_rpoB,enc_sensitive_rpoB),
+    ("katG",enc_resistant_katG,enc_sensitive_katG),
+    ("gyrA",enc_resistant_gyrA,enc_sensitive_gyrA)
+]
+
+# fig.suptitle("ENC Distribution-Sensitive vs Resistant M. tuberculosis",fontsize=14,fontweight="bold")
+# for i, (gene,enc_r,enc_s) in enumerate(enc_info):
+#     ax = axes[i]
+#     ax.boxplot([enc_r,enc_s],
+#                labels=["Resistant","Sensitive"],
+#                patch_artist=True,
+#                boxprops=dict(facecolor="#f181c0",alpha=0.7),
+#                medianprops=dict(color="#6F2703",linewidth=2.5))
+#     ax.set_title(gene,fontsize=15,fontweight="bold")
+#     ax.set_xlabel("Groups",fontsize=11,fontweight="bold")
+#     ax.set_ylabel("ENC",fontsize=11,fontweight="bold")
+#     ax.grid(True,linestyle="--",alpha=0.4)
+#     ax.set_facecolor("#e8f6f6")
+#     ranges = {"rpoB": (33.8, 34.8), "katG": (39.4, 40.2), "gyrA": (37.8, 39.2)}
+#     ax.set_ylim(ranges[gene])
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","enc_boxplot.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+# plt.close()
+
+#### === GC3 Boxplot ===
+
+gc3_info = [
+    ("rpoB",gc3_resistant_rpoB,gc3_sensitive_rpoB),
+    ("katG",gc3_resistant_katG,gc3_sensitive_katG),
+    ("gyrA",gc3_resistant_gyrA,gc3_sensitive_gyrA)
+]
+
+# fig.suptitle("GC3 Distribution-Sensitive vs Resistant M. tuberculosis",fontsize=14,fontweight="bold")
+# for i, (gene,gc3_r,gc3_s) in enumerate(gc3_info):
+#     ax = axes[i]
+#     ax.boxplot([gc3_r,gc3_s],
+#                labels=["Resistant","Sensitive"],
+#                patch_artist=True,
+#                boxprops=dict(facecolor="#f181c0",alpha=0.7),
+#                medianprops=dict(color="#6F2703",linewidth=2.5))
+#     ax.set_title(gene,fontsize=15,fontweight="bold")
+#     ax.set_xlabel("Groups",fontsize=11,fontweight="bold")
+#     ax.set_ylabel("GC3",fontsize=11,fontweight="bold")
+#     ax.grid(True,linestyle="--",alpha=0.4)
+#     ax.set_facecolor("#e8f6f6")
+
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","gc3_boxplot.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+# plt.close()
+
+#### === Heatmap for RSCU ===
+
+data = {}
+for codon in rscu_avg["resistant"]["rpoB"]:
+    sens_val = rscu_avg["sensitive"]["rpoB"].get(codon,0)
+    res_val = rscu_avg["resistant"]["rpoB"].get(codon,0)
+    data[codon] = {"Sensitive":sens_val,"Resistant":res_val}
+
+df_rpoB = pd.DataFrame(data).T 
+# print(df_rpoB.head())
+
+for codon in rscu_avg["resistant"]["katG"]:
+    sens_val = rscu_avg["sensitive"]["katG"].get(codon,0)
+    res_val = rscu_avg["resistant"]["katG"].get(codon,0)
+    data[codon] = {"Sensitive":sens_val,"Resistant":res_val}
+
+df_katG = pd.DataFrame(data).T 
+# print(df_katG.head())
+
+for codon in rscu_avg["resistant"]["gyrA"]:
+    sens_val = rscu_avg["sensitive"]["gyrA"].get(codon,0)
+    res_val = rscu_avg["resistant"]["gyrA"].get(codon,0)
+    data[codon] = {"Sensitive":sens_val,"Resistant":res_val}
+
+df_gyrA = pd.DataFrame(data).T 
+# print(df_gyrA.head())
+
+# fig,axes = plt.subplots(1,3,figsize=(8,9))
+# for i, (gene,df) in enumerate(zip(["rpoB","katG","gyrA"],[df_rpoB,df_katG,df_gyrA])):
+#     sns.heatmap(df,cmap="RdYlGn",annot=False,
+#             linewidths=0.5,ax=axes[i],vmin=0,vmax=4.5)
+#     axes[i].set_title(gene,fontsize=13,fontweight="bold")
+#     axes[i].tick_params(axis="y",labelsize=7)
+# fig.suptitle("RSCU Heatmap - All Genes M. tuberculosis",fontsize=15,fontweight="bold")
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","RSCU_all_genes_heatmap.png"),dpi=300,bbox_inches="tight")
 # plt.show()
 
+# sns.heatmap(df_rpoB,cmap="RdYlGn",annot=False,
+#             linewidths=0.7,vmin=0,vmax=4.5)
+# plt.title("RCSU Heatmap - rpoB",fontsize=13,fontweight="bold")
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","RSCU_ropB_heatmap.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+# plt.close()
 
+# sns.heatmap(df_gyrA,cmap="RdYlGn",annot=False,
+#             linewidths=0.7,vmin=0,vmax=4.5)
+# plt.title("RCSU Heatmap - gyrA",fontsize=13,fontweight="bold")
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","RSCU_gyrA_heatmap.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+# plt.close()
+
+# sns.heatmap(df_katG,cmap="RdYlGn",annot=False,
+#             linewidths=0.7,vmin=0,vmax=4.5)
+# plt.title("RCSU Heatmap - katG",fontsize=13,fontweight="bold")
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","RSCU_katG_heatmap.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+# plt.close()
