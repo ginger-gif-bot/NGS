@@ -3,6 +3,8 @@ from Bio import SeqIO
 from glob import glob
 from Bio.Data import CodonTable
 from collections import Counter, defaultdict
+import matplotlib.pyplot as plt
+import numpy as np
 
 codon_table = CodonTable.unambiguous_dna_by_name["Standard"]
 gene_list = ["rpoB","katG","gyrA"]
@@ -195,12 +197,102 @@ def gc3_calc(codon_counter):
 
     return round(gc / total,4)
 
-# print(gc3_calc(all_codons["ERR4810467"]["gyrA"]))
+print(gc3_calc(all_codons["ERR4810467"]["gyrA"]))
 
 gc3_values = defaultdict(lambda:defaultdict(lambda:defaultdict(float)))
 for sample_id in group_labels:
     for gene in all_codons[sample_id]:
         gc3_val = gc3_calc(all_codons[sample_id][gene])
-    gc3_values[group_labels[sample_id]][sample_id][gene] = gc3_val
+        gc3_values[group_labels[sample_id]][sample_id][gene] = gc3_val
 
 # print(gc3_values) 
+
+#### === ENC - GC3 PLOT ===
+
+# gyrA
+enc_resistant_gyrA = []
+enc_sensitive_gyrA = []
+gc3_resistant_gyrA = []
+gc3_sensitive_gyrA = []
+
+# rpoB
+enc_resistant_rpoB = []
+enc_sensitive_rpoB = []
+gc3_resistant_rpoB = []
+gc3_sensitive_rpoB = []
+
+# katG
+enc_resistant_katG = []
+enc_sensitive_katG = []
+gc3_resistant_katG = []
+gc3_sensitive_katG = []
+
+print(f"rpoB GC3 resistant sample: {gc3_resistant_rpoB[:5]}")
+print(f"rpoB GC3 sensitive sample: {gc3_sensitive_rpoB[:5]}")
+print(f"gyrA GC3 resistant sample: {gc3_resistant_gyrA[:5]}")
+
+print(f"rpoB enc resistant sample: {enc_resistant_rpoB[:5]}")
+print(f"rpoB enc sensitive sample: {enc_sensitive_rpoB[:5]}")
+print(f"gyrA enc resistant sample: {enc_resistant_gyrA[:5]}")
+
+for sample_id in group_labels:
+    grp = group_labels[sample_id]
+
+    if "katG" in enc_values[grp][sample_id]:  
+        if grp == "resistant":     
+            enc_resistant_katG.append(enc_values[grp][sample_id]["katG"])
+            gc3_resistant_katG.append(gc3_values[grp][sample_id]["katG"])
+        else:
+            enc_sensitive_katG.append(enc_values[grp][sample_id]["katG"])
+            gc3_sensitive_katG.append(gc3_values[grp][sample_id]["katG"])
+
+    if "gyrA" in enc_values[grp][sample_id]:
+        if grp == "resistant":
+            enc_resistant_gyrA.append(enc_values[grp][sample_id]["gyrA"])
+            gc3_resistant_gyrA.append(gc3_values[grp][sample_id]["gyrA"])
+        else:
+            enc_sensitive_gyrA.append(enc_values[grp][sample_id]["gyrA"])
+            gc3_sensitive_gyrA.append(gc3_values[grp][sample_id]["gyrA"])
+
+    if "rpoB" in enc_values[grp][sample_id]:
+        if grp == "resistant":
+            enc_resistant_rpoB.append(enc_values[grp][sample_id]["rpoB"])
+            gc3_resistant_rpoB.append(gc3_values[grp][sample_id]["rpoB"])
+        else: 
+            enc_sensitive_rpoB.append(enc_values[grp][sample_id]["rpoB"])
+            gc3_sensitive_rpoB.append(gc3_values[grp][sample_id]["rpoB"])
+
+print(f"rpoB: {len(enc_resistant_rpoB)} resistant, {len(enc_sensitive_rpoB)} sensitive")
+print(f"katG: {len(enc_resistant_katG)} resistant, {len(enc_sensitive_katG)} sensitive")
+print(f"gyrA: {len(enc_resistant_gyrA)} resistant, {len(enc_sensitive_gyrA)} sensitive")
+
+
+fig, axes  = plt.subplots(1,3,figsize=(15,5))
+
+gc3_range = np.linspace(0.1,0.99,200)
+enc_expected = 2 + gc3_range + (29 / (gc3_range**2 + (1 - gc3_range)**2))
+
+plt_info = [("rpoB",enc_resistant_rpoB,enc_sensitive_rpoB,gc3_resistant_rpoB,gc3_sensitive_rpoB),
+            ("katG",enc_resistant_katG,enc_sensitive_katG,gc3_resistant_katG,gc3_sensitive_katG),
+            ("gyrA",enc_resistant_gyrA,enc_sensitive_gyrA,gc3_resistant_gyrA,gc3_sensitive_gyrA)]
+
+fig.suptitle("ENC vs GC3 - M. tuberculosis (rpoB,katG,gyrA)",fontsize=14,fontweight="bold")
+
+for i , (gene,enc_r,enc_s,gc3_r,gc3_s) in enumerate(plt_info):
+    ax = axes[i]
+    ax.plot(gc3_range,enc_expected,color="black",label="EXPECTED",linestyle="-",linewidth=1.5)
+    ax.scatter(gc3_s,enc_s,color="skyblue",label="Sensitive",alpha=0.4,s=80,marker="o",edgecolors="blue")
+    ax.scatter(gc3_r,enc_r,color="pink",label="Resistant",alpha=0.4,s=80,marker="^",edgecolors="maroon")
+    ax.set_title(gene,fontsize=15,fontweight="bold")
+    ax.set_xlabel("GC3",fontsize=11,fontweight="bold")
+    ax.set_ylabel("ENC",fontsize=11,fontweight="bold")
+    ax.set_ylim(20,61)
+    ax.set_xlim(0,1)
+    ax.grid(True,linestyle="--",alpha=0.4,color="#494a4a")
+    ax.legend(framealpha=0.7)
+    ax.set_facecolor("#e8f6f6")
+plt.tight_layout()
+# plt.savefig(os.path.join("results","enc_gc3_plot.png"),dpi=300,bbox_inches="tight")
+# plt.show()
+
+
