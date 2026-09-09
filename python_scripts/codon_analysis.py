@@ -423,37 +423,42 @@ for codon in rscu_avg["resistant"]["gyrA"]:
 
 df_gyrA = pd.DataFrame(data).T 
 
-# fig,axes = plt.subplots(1,3,figsize=(8,9))
-# for i, (gene,df) in enumerate(zip(["rpoB","katG","gyrA"],[df_rpoB,df_katG,df_gyrA])):
-#     sns.heatmap(df,cmap="RdYlGn",annot=False,
-#             linewidths=0.5,ax=axes[i],vmin=0,vmax=4.5)
-#     axes[i].set_title(gene,fontsize=13,fontweight="bold")
-#     axes[i].tick_params(axis="y",labelsize=7)
-# fig.suptitle("RSCU Heatmap - All Genes M. tuberculosis",fontsize=15,fontweight="bold")
-# plt.tight_layout()
-# plt.savefig(os.path.join("results","plots","RSCU_all_genes_heatmap.png"),dpi=300,bbox_inches="tight")
-# plt.show()
+fig,axes = plt.subplots(1,3,figsize=(10,16))
+for i, (gene,df) in enumerate(zip(["rpoB","katG","gyrA"],[df_rpoB,df_katG,df_gyrA])):
+    sns.heatmap(df,cmap="RdYlGn",annot=False,
+            linewidths=0.5,ax=axes[i],vmin=0,vmax=4.5,linecolor="black")
+    axes[i].set_title(gene,fontsize=13,fontweight="bold")
+    axes[i].tick_params(axis="y",labelsize=7)
+fig.suptitle("RSCU Heatmap - All Genes M. tuberculosis",fontsize=15,fontweight="bold")
+plt.yticks(fontsize=6)
+plt.tight_layout()
+plt.savefig(os.path.join("results","plots","RSCU_all_genes_heatmap.png"),dpi=300,bbox_inches="tight")
+plt.show()
 
+plt.figure(figsize=(10,16))
 # sns.heatmap(df_rpoB,cmap="RdYlGn",annot=False,
-#             linewidths=0.7,vmin=0,vmax=4.5)
+#             linewidths=1.5,vmin=0,vmax=4.5,linecolor="black")
 # plt.title("RCSU Heatmap - rpoB",fontsize=13,fontweight="bold")
 # plt.tight_layout()
+# plt.yticks(fontsize=6)
 # plt.savefig(os.path.join("results","plots","RSCU_ropB_heatmap.png"),dpi=300,bbox_inches="tight")
 # plt.show()
 # plt.close()
 
 # sns.heatmap(df_gyrA,cmap="RdYlGn",annot=False,
-#             linewidths=0.7,vmin=0,vmax=4.5)
+#             linewidths=1.5,vmin=0,vmax=4.5,linecolor="black")
 # plt.title("RCSU Heatmap - gyrA",fontsize=13,fontweight="bold")
 # plt.tight_layout()
+# plt.yticks(fontsize=6)
 # plt.savefig(os.path.join("results","plots","RSCU_gyrA_heatmap.png"),dpi=300,bbox_inches="tight")
 # plt.show()
 # plt.close()
 
 # sns.heatmap(df_katG,cmap="RdYlGn",annot=False,
-#             linewidths=0.7,vmin=0,vmax=4.5)
+#             linewidths=1.5,vmin=0,vmax=4.5,linecolor="black")
 # plt.title("RCSU Heatmap - katG",fontsize=13,fontweight="bold")
 # plt.tight_layout()
+# plt.yticks(fontsize=6)
 # plt.savefig(os.path.join("results","plots","RSCU_katG_heatmap.png"),dpi=300,bbox_inches="tight")
 # plt.show()
 # plt.close()
