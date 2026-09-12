@@ -156,7 +156,6 @@ for grp in rscu_values_all:
 
 # print(rscu_avg["sensitive"]["rpoB"]["CTG"])
 # print(rscu_avg["resistant"]["rpoB"]["CTG"])
-
 # --- SECTION 10: BUILD FOLD GROUPS FOR ENC ---
 #### === ENC CALCULATION ===
 two_fold = []  
