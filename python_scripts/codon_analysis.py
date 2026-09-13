@@ -355,7 +355,7 @@ enc_info = [
 # for i, (gene,enc_r,enc_s) in enumerate(enc_info):
 #     ax = axes[i]
 #     ax.boxplot([enc_r,enc_s],
-#                labels=["Resistant","Sensitive"],
+#                tick_labels=["Resistant","Sensitive"],
 #                patch_artist=True,
 #                boxprops=dict(facecolor="#f181c0",alpha=0.7),
 #                medianprops=dict(color="#6F2703",linewidth=2.5))
@@ -383,7 +383,7 @@ gc3_info = [
 # for i, (gene,gc3_r,gc3_s) in enumerate(gc3_info):
 #     ax = axes[i]
 #     ax.boxplot([gc3_r,gc3_s],
-#                labels=["Resistant","Sensitive"],
+#                tick_labels=["Resistant","Sensitive"],
 #                patch_artist=True,
 #                boxprops=dict(facecolor="#f181c0",alpha=0.7),
 #                medianprops=dict(color="#6F2703",linewidth=2.5))
@@ -396,7 +396,7 @@ gc3_info = [
 # plt.tight_layout()
 # plt.savefig(os.path.join("results","plots","gc3_boxplot.png"),dpi=300,bbox_inches="tight")
 # plt.show()
-# plt.close()
+plt.close()
 
 #### === Heatmap for RSCU ===
 
@@ -422,17 +422,17 @@ for codon in rscu_avg["resistant"]["gyrA"]:
 
 df_gyrA = pd.DataFrame(data).T 
 
-fig,axes = plt.subplots(1,3,figsize=(10,16))
-for i, (gene,df) in enumerate(zip(["rpoB","katG","gyrA"],[df_rpoB,df_katG,df_gyrA])):
-    sns.heatmap(df,cmap="RdYlGn",annot=False,
-            linewidths=0.5,ax=axes[i],vmin=0,vmax=4.5,linecolor="black")
-    axes[i].set_title(gene,fontsize=13,fontweight="bold")
-    axes[i].tick_params(axis="y",labelsize=7)
-fig.suptitle("RSCU Heatmap - All Genes M. tuberculosis",fontsize=15,fontweight="bold")
-plt.yticks(fontsize=6)
-plt.tight_layout()
-plt.savefig(os.path.join("results","plots","RSCU_all_genes_heatmap.png"),dpi=300,bbox_inches="tight")
-plt.show()
+# fig,axes = plt.subplots(1,3,figsize=(10,16))
+# for i, (gene,df) in enumerate(zip(["rpoB","katG","gyrA"],[df_rpoB,df_katG,df_gyrA])):
+#     sns.heatmap(df,cmap="RdYlGn",annot=False,
+#             linewidths=0.5,ax=axes[i],vmin=0,vmax=4.5,linecolor="black")
+#     axes[i].set_title(gene,fontsize=13,fontweight="bold")
+#     axes[i].tick_params(axis="y",labelsize=7)
+# fig.suptitle("RSCU Heatmap - All Genes M. tuberculosis",fontsize=15,fontweight="bold")
+# plt.yticks(fontsize=6)
+# plt.tight_layout()
+# plt.savefig(os.path.join("results","plots","RSCU_all_genes_heatmap.png"),dpi=300,bbox_inches="tight")
+# plt.show()
 
 plt.figure(figsize=(10,16))
 # sns.heatmap(df_rpoB,cmap="RdYlGn",annot=False,
@@ -463,6 +463,7 @@ plt.figure(figsize=(10,16))
 # plt.close()
 
 # --- SECTION 15: SAVE COMPUTED VALUES TO CSV ---
+
 
 df_rpoB.to_csv(os.path.join("results","CSVs","rscu_avg_rpoB.csv"))
 # print(df_rpoB.head())
