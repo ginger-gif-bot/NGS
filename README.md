@@ -256,6 +256,6 @@ bash scripts/fastqc_trim.sh
 ---
 
 ## Author
-`Kiran Gupta`
+Kiran Gupta
 M.Sc. Biotechnology — Integrated Programme  
 Pipeline developed as part of thesis preparation, 2026
