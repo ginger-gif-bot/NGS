@@ -29,6 +29,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import pandas as pd
+from cds_extraction import cds_info
+from Bio.SeqRecord import SeqRecord
 
 # --- SECTION 2: GLOBAL SETTINGS ---
 
@@ -501,3 +503,60 @@ df_rscu_all = pd.DataFrame(rscu_rows)
 df_rscu_all.to_csv(os.path.join("results","CSVs","rscu_all_samples.csv"),index=False)
 # print(df_rscu_all.head())
 # print(df_rscu_all.shape)
+
+# --- SECTION 16: WRITING THE GROUP NAME IN FASTA FILES ---
+
+# print(group_labels)
+
+gene_list = ["rpoB","katG","gyrA"]
+os.makedirs(os.path.join("results", "cds_seq", "combined_files"), exist_ok=True)
+for gene in gene_list:
+    path = glob(os.path.join("results","cds_seq",gene,"*.fasta"))
+    record_to_write = []
+    for files in path:
+        record = SeqIO.read(files,"fasta")
+        # print(record.id)
+        sample_id = os.path.basename(files)
+        sample_id = sample_id.replace(f"_{gene}.fasta","")
+        prefix = "S" if group_labels[sample_id] == "sensitive" else "R"
+        record.id = f"{prefix}_{record.id}"
+        record.description = ""
+        # print(record.id)
+        record_to_write.append(record)
+    SeqIO.write(record_to_write,os.path.join("results","cds_seq","combined_files",f"{gene}_combined.fasta"),"fasta")
+    # r_records = [rec.id for rec in record_to_write if rec.id.startswith("S")]
+    # print(len(r_records))
+
+# --- SECTION 17: EXTRACTING THE REFERENCE GENES FROM THE GENOME ---
+
+ref = os.path.join("data","reference","tb_ref_genome","ncbi_dataset","data","GCF_000195955.2","genomic.gbff")
+
+# print(cds_info(gene_list,ref))
+cds_infom = cds_info(gene_list,ref)
+os.makedirs(os.path.join("results", "cds_seq", "ref_genes"), exist_ok=True)
+
+def ref_gene_extraction(ref,gene_coord,gene_list):
+    ref_genome = SeqIO.read(ref,"genbank")
+    for gene in gene_list:
+        out_path = os.path.join("results", "cds_seq", "ref_genes",f"{gene}_ref.fasta")
+        for info in gene_coord:
+            if info["gene"] == gene:
+                start = info["start"]
+                end = info["end"]
+                cds_seq = ref_genome.seq[start-1:end]
+                if info["strand"] == -1:
+                    cds_seq = cds_seq.reverse_complement()
+                cds_record = SeqRecord(cds_seq,id=f"REF_H37Rv_{gene}",description="")
+                SeqIO.write(cds_record,out_path,"fasta")
+                
+ref_gene_extraction(ref,cds_infom,gene_list)
+
+# --- SECTION 16: APPENDING THE REFERENCE GENE TO THE COMBINED FILES ---
+
+for gene in gene_list:
+    combined_path = os.path.join("results","cds_seq","combined_files",f"{gene}_combined.fasta")
+    ref_path = os.path.join("results","cds_seq","ref_genes",f"{gene}_ref.fasta")
+    ref_record = SeqIO.read(ref_path,"fasta")
+
+    with open(combined_path,"a") as f:
+        SeqIO.write(ref_record,f,"fasta")

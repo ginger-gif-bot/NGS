@@ -29,6 +29,11 @@ results/vcf/*
 !results/vcf/.gitkeep
 results/cds_seq/*
 !results/cds_seq/.gitkeep
+results/msa/*
+!results/msa/.gitkeep
+results/tree/*
+!results/tree/.gitkeep
+
 # Logs
 logs/*
 !logs/.gitkeep

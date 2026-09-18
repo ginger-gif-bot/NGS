@@ -49,7 +49,7 @@ def cds_info(target_gene_list,ref):
     
     return cds_info
 
-cds_infomation = cds_info(target_list,ref) 
+# cds_infomation = cds_info(target_list,ref) 
 # print(cds_infomation)
 log_file = open(os.path.join("logs","cds_extraction.log"),"a")
 
@@ -100,7 +100,7 @@ def cds_extraction(cds_info):
             log(f"{sample_id}_{gene} done in {elapsed:.2f}s ({seq_len%3} frame check)")
             
 
-print(cds_extraction(cds_infomation))
+# print(cds_extraction(cds_infomation))
 
 def file_check(target_gene):
     files_in_folder = []
@@ -111,6 +111,6 @@ def file_check(target_gene):
         })
     return files_in_folder
 
-print(file_check(target_list))
+# print(file_check(target_list))
 
 log_file.close() 
